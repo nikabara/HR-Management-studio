@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using HR_Management_studio.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace HR_Management_studio.Models;
 
@@ -44,6 +45,16 @@ public class Employee
 		set { personalId = value; }
 	}
 
+
+	private EmployeePosition employeePosition;
+	[Required]
+	public EmployeePosition EmployeePosition
+    {
+		get { return employeePosition; }
+		set { employeePosition = value; }
+	}
+
+
 	private DateTime dateOfEmployment = DateTime.Now;
     /// <summary>
     /// If not assigned default value of DateOfEmployment property will be DateTime.Now
@@ -62,4 +73,14 @@ public class Employee
 		get { return salary; }
 		set { salary = value; }
 	}
+
+    public override string ToString() =>
+		$"Id: {id}\n" +
+		$"Name: {name}\n" +
+		$"Last-name: {lastName}\n" +
+		$"Age: {age}\n" +
+		$"Personal Id: {personalId}\n" +
+		$"Date of employment (mm/dd/yy): {dateOfEmployment:MM/dd/yyyy hh:mm:ss}\n" +
+		$"Salary: {salary}\n";
+ 
 }

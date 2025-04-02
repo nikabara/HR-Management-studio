@@ -57,6 +57,32 @@ namespace HR_Management_studio.Services.EmployeeService
             }
         }
 
+        public void GetAllData(out List<Employee> employeeCollection)
+        {
+            string directoryPath = Path.Combine(_filePath, "Employee");
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+
+            string filePath = Path.Combine(directoryPath, "Employee.csv");
+
+
+            bool fileExists = File.Exists(filePath);
+
+            List<Employee> employeeList = new();
+
+            using (StreamReader sReader = new(filePath))
+            using (CsvReader csvReader = new(sReader, CultureInfo.InvariantCulture))
+            {
+                employeeList = csvReader.GetRecords<Employee>().ToList();
+            }
+
+            employeeCollection = employeeList;
+
+            employeeList.ForEach(emp => Console.WriteLine(emp.ToString()));
+        }
+
 
 
         [Obsolete("Dont use this method. Use [AddEmployee(Employee employee)] instead")]
