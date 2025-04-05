@@ -29,6 +29,8 @@ var result = res.GetEmploies();
 
 //res.RemoveEmployee(3, out bool isSuccessful);
 
+res.RemoveEmployee(x => x.Name == "Nick");
+
 res.PrintEmploiesData();
 
 Console.ReadLine();

@@ -9,6 +9,10 @@ namespace HR_Management_studio.Services.EmployeeService
     {
         private readonly string _filePath = @$"{Directory.GetCurrentDirectory()}\HRMS";
 
+        /// <summary>
+        /// Adds single Employee instance to a ~/Employee.csv file
+        /// </summary>
+        /// <param name="employee"></param>
         public void AddEmployee(Employee employee)
         {
             string directoryPath = Path.Combine(_filePath, "Employee");
@@ -38,9 +42,20 @@ namespace HR_Management_studio.Services.EmployeeService
             }
 
         }
-
+        
+        /// <summary>
+        /// Adds List of Employee instances to a ~/Employee.csv file
+        /// </summary>
+        /// <param name="emploies"></param>
         public void AddEmploies(List<Employee> emploies) => emploies.ForEach(x => AddEmployee(x));
 
+        /// <summary>
+        /// Gets every employee from the ~/Employee.csv file.
+        /// </summary>
+        /// <returns>
+        /// A <b>List&lt;Employee&gt;</b> if no exceptions occur; otherwise, an empty list (<b>List&lt;Employee&gt;</b>).
+        /// </returns>
+        /// <param name="filePath">The path to the CSV file.</param>
         public List<Employee> GetEmploies()
         {
             try
@@ -66,6 +81,11 @@ namespace HR_Management_studio.Services.EmployeeService
             }
         }
 
+        /// <summary>
+        /// Removes Employee from a collection using [ *primary key* ] id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="isSuccessful"></param>
         public void RemoveEmployee(int id, out bool isSuccessful)
         {
             try
@@ -94,6 +114,42 @@ namespace HR_Management_studio.Services.EmployeeService
             }
         }
 
+        /// <summary>
+        /// Removes Employee from a collection depending on lambda expression
+        /// </summary>
+        /// <param name="statement"></param>
+        /// <param name="isSuccessful"></param>
+        public void RemoveEmployee(Func<Employee, bool> statement, out bool isSuccessful)
+        {
+            try
+            {
+                string directoryPath = Path.Combine(_filePath, "Employee");
+                if (!Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+
+                string filePath = Path.Combine(directoryPath, "Employee.csv");
+
+                List<Employee> filteredEmploies = GetEmploies().Where(statement).ToList();
+
+                File.Delete(filePath);
+
+                AddEmploies(filteredEmploies);
+
+                isSuccessful = true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+
+                isSuccessful = false;
+            }
+        }
+
+        /// <summary>
+        /// Print every single employe info to console
+        /// </summary>
         public void PrintEmploiesData()
         {
             string directoryPath = Path.Combine(_filePath, "Employee");
