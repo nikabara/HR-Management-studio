@@ -1,4 +1,5 @@
 ﻿using HR_Management_studio.Enums;
+using HR_Management_studio.Services.EnumServices;
 using System.ComponentModel.DataAnnotations;
 
 namespace HR_Management_studio.Models;
@@ -54,7 +55,6 @@ public class Employee
 		set { employeePosition = value; }
 	}
 
-
 	private DateTime dateOfEmployment = DateTime.Now;
     /// <summary>
     /// If not assigned default value of DateOfEmployment property will be DateTime.Now
@@ -80,6 +80,7 @@ public class Employee
 		$"Last-name: {lastName}\n" +
 		$"Age: {age}\n" +
 		$"Personal Id: {personalId}\n" +
+		$"Position : {EmployeePosition.FormatPositionEnum()}\n" +
 		$"Date of employment (mm/dd/yy): {dateOfEmployment:MM/dd/yyyy hh:mm:ss}\n" +
 		$"Salary: {salary}\n";
  

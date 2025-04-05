@@ -2,16 +2,41 @@
 using HR_Management_studio.Models;
 using HR_Management_studio.Services.EmployeeService;
 using HR_Management_studio.Services.EnumServices;
+using System.Diagnostics;
 
 EmployeeService res = new();
 
 
 //res.GetAllData(out List<Employee> employeeCollection);
 
+
+var result = res.GetEmploies();
+
+//Employee emp = new()
+//{
+//    Id = 1,
+//    Name = "Nick",
+//    LastName = "Bara",
+//    Age = 17,
+//    PersonalId = "5545896544",
+//    DateOfEmployment = DateTime.Now,
+//    Salary = 1500
+//};
+
+//res.AddEmployee(emp);
+//res.AddEmployee(emp);
+//res.AddEmployee(emp);
+
+//res.RemoveEmployee(3, out bool isSuccessful);
+
+res.PrintEmploiesData();
+
 Console.ReadLine();
 
-EmployeePosition pos = EmployeePosition.Project_Manager;
+//Console.ReadLine();
 
-Console.WriteLine(pos);
+//EmployeePosition pos = EmployeePosition.Project_Manager;
 
-Console.WriteLine(pos.FormatPositionEnum());
+//Console.WriteLine(pos);
+
+//Console.WriteLine(pos.FormatPositionEnum());

@@ -39,25 +39,62 @@ namespace HR_Management_studio.Services.EmployeeService
 
         }
 
+        public void AddEmploies(List<Employee> emploies) => emploies.ForEach(x => AddEmployee(x));
+
         public List<Employee> GetEmploies()
         {
-            string directoryPath = Path.Combine(_filePath, "Employee");
-            if (!Directory.Exists(directoryPath))
+            try
             {
-                Directory.CreateDirectory(directoryPath);
+                string directoryPath = Path.Combine(_filePath, "Employee");
+                if (!Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+
+                string filePath = Path.Combine(directoryPath, "Employee.csv");
+
+                using (StreamReader sReader = new(filePath))
+                using (CsvReader csvReader = new(sReader, CultureInfo.InvariantCulture))
+                {
+                    return csvReader.GetRecords<Employee>().ToList();
+                }
             }
-
-            string filePath = Path.Combine(directoryPath, "Employee.csv");
-
-            using (StreamReader sReader = new(filePath))
-            using (CsvReader csvReader = new(sReader, CultureInfo.InvariantCulture))
+            catch (Exception ex)
             {
-
-                return csvReader.GetRecords<Employee>().ToList();
+                Console.WriteLine(ex.Message);
+                return [];
             }
         }
 
-        public void GetAllData(out List<Employee> employeeCollection)
+        public void RemoveEmployee(int id, out bool isSuccessful)
+        {
+            try
+            {
+                string directoryPath = Path.Combine(_filePath, "Employee");
+                if (!Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+
+                string filePath = Path.Combine(directoryPath, "Employee.csv");
+                
+                List<Employee> filteredEmploies = GetEmploies().Where(x => x.Id != id).ToList();
+                
+                File.Delete(filePath);
+
+                AddEmploies(filteredEmploies);
+
+                isSuccessful = true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+
+                isSuccessful = false;
+            }
+        }
+
+        public void PrintEmploiesData()
         {
             string directoryPath = Path.Combine(_filePath, "Employee");
             if (!Directory.Exists(directoryPath))
@@ -70,19 +107,17 @@ namespace HR_Management_studio.Services.EmployeeService
 
             bool fileExists = File.Exists(filePath);
 
-            List<Employee> employeeList = new();
+            if (!fileExists) File.Create(filePath).Close();
 
             using (StreamReader sReader = new(filePath))
             using (CsvReader csvReader = new(sReader, CultureInfo.InvariantCulture))
             {
-                employeeList = csvReader.GetRecords<Employee>().ToList();
+                List<Employee> employeeList = csvReader.GetRecords<Employee>().ToList();
+
+                employeeList.ForEach(emp => Console.WriteLine(emp.ToString()));
             }
 
-            employeeCollection = employeeList;
-
-            employeeList.ForEach(emp => Console.WriteLine(emp.ToString()));
         }
-
 
 
         [Obsolete("Dont use this method. Use [AddEmployee(Employee employee)] instead")]
