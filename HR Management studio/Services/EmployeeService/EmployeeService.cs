@@ -2,6 +2,7 @@
 using HR_Management_studio.Models;
 using System.Globalization;
 using System.Text;
+using HR_Management_studio.Services.DirectoryService;
 
 namespace HR_Management_studio.Services.EmployeeService
 {
@@ -23,26 +24,25 @@ namespace HR_Management_studio.Services.EmployeeService
 
             string filePath = Path.Combine(directoryPath, "Employee.csv");
 
-
             bool fileExists = File.Exists(filePath);
+            bool writeHeader = !fileExists || new FileInfo(filePath).Length == 0;
 
+            employee.Id = DirectoryService.DirectoryService.GetCurrentId() + 1;
 
-            using (StreamWriter sWriter = new(filePath, append: true))
-            using (CsvWriter csvWriter = new(sWriter, CultureInfo.InvariantCulture))
+            using (var sWriter = new StreamWriter(filePath, append: true))
+            using (var csvWriter = new CsvWriter(sWriter, CultureInfo.InvariantCulture))
             {
-
-                if (!fileExists)
+                if (writeHeader)
                 {
                     csvWriter.WriteHeader<Employee>();
                     csvWriter.NextRecord();
                 }
-                
+
                 csvWriter.WriteRecord(employee);
                 csvWriter.NextRecord();
             }
-
         }
-        
+
         /// <summary>
         /// Adds List of Employee instances to a ~/Employee.csv file
         /// </summary>
@@ -82,10 +82,10 @@ namespace HR_Management_studio.Services.EmployeeService
         }
 
         /// <summary>
-        /// Get 
+        /// Get single employee with specified Personal Id
         /// </summary>
         /// <param name="PersonalId"></param>
-        /// <returns></returns>
+        /// <returns>Employee</returns>
         public Employee GetEmployee(string PersonalId) => 
             GetEmploies().Where(x => x.PersonalId.Equals(PersonalId)).First();
 

@@ -6,15 +6,10 @@ namespace HR_Management_studio.Models;
 
 public class Employee
 {
-	private int id;
-	[Key]
-	public int Id
-	{
-		get { return id; }
-		set { id = value; }
-	}
 
-	private string name = string.Empty;
+    public int Id { get; set; }
+
+    private string name = string.Empty;
 	[Required]
 	public string Name
 	{
@@ -75,7 +70,7 @@ public class Employee
 	}
 
     public override string ToString() =>
-		$"Id: {id}\n" +
+		$"Id: {Id}\n" +
 		$"Name: {name}\n" +
 		$"Last-name: {lastName}\n" +
 		$"Age: {age}\n" +
