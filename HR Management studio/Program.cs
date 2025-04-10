@@ -6,39 +6,17 @@ using System.Diagnostics;
 
 EmployeeService res = new();
 
-
-//res.GetAllData(out List<Employee> employeeCollection);
-
-
-var result = res.GetEmploies();
-
+Employee emp = res.GetEmployee(x => x.Name == "nick");
+Console.ReadLine();
 //Employee emp = new()
 //{
 //    Id = 1,
-//    Name = "Nick",
+//    Name = "nick",
 //    LastName = "Bara",
-//    Age = 17,
-//    PersonalId = "5545896544",
-//    DateOfEmployment = DateTime.Now,
-//    Salary = 1500
+//    Age = 0,
+//    PersonalId = "64654654654",
+//    Salary = 1500,
+//    EmployeePosition = EmployeePosition.Marketing_Specialist
 //};
 
-//res.AddEmployee(emp);
-//res.AddEmployee(emp);
-//res.AddEmployee(emp);
-
-//res.RemoveEmployee(3, out bool isSuccessful);
-
-res.RemoveEmployee(x => x.Name == "Nick");
-
-res.PrintEmploiesData();
-
-Console.ReadLine();
-
-//Console.ReadLine();
-
-//EmployeePosition pos = EmployeePosition.Project_Manager;
-
-//Console.WriteLine(pos);
-
-//Console.WriteLine(pos.FormatPositionEnum());
+//res.PrintEmploiesData();

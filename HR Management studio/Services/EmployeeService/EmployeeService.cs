@@ -82,6 +82,21 @@ namespace HR_Management_studio.Services.EmployeeService
         }
 
         /// <summary>
+        /// Get 
+        /// </summary>
+        /// <param name="PersonalId"></param>
+        /// <returns></returns>
+        public Employee GetEmployee(string PersonalId) => 
+            GetEmploies().Where(x => x.PersonalId.Equals(PersonalId)).First();
+
+        /// <summary>
+        /// Gets every employee from the ~/Employee.csv file which satisfies lambda statement.
+        /// </summary>
+        /// <param name="statement"></param>
+        /// <returns>List<Employee></returns>
+        public List<Employee> GetEmploies(Func<Employee, bool> statement) => GetEmploies().Where(statement).ToList();
+
+        /// <summary>
         /// Removes Employee from a collection using [ *primary key* ] id
         /// </summary>
         /// <param name="id"></param>
