@@ -4,47 +4,53 @@ using HR_Management_studio.Services.DirectoryService;
 using HR_Management_studio.Services.EmployeeService;
 using HR_Management_studio.Services.EnumServices;
 using System.Diagnostics;
+using Spectre.Console;
+
+using Figgle;
+using HR_Management_studio.Assets;
+using HR_Management_studio.Services.ConsoleService;
+
 
 EmployeeService res = new();
 
 //List<Employee> emp = res.GetEmploies(x => x.Name == "nick");
 //Console.ReadLine();
-Employee emp = new()
-{
-    Name = "nick",
-    LastName = "Bara",
-    Age = 0,
-    PersonalId = "64654654654",
-    Salary = 1500,
-    EmployeePosition = EmployeePosition.Marketing_Specialist
-};
+//Employee emp = new()
+//{
+//    Name = "nick",
+//    LastName = "Bara",
+//    Age = 0,
+//    PersonalId = "64654654654",
+//    Salary = 1500,
+//    EmployeePosition = EmployeePosition.Marketing_Specialist
+//};
 
-Employee emp1 = new()
-{
-    Name = "nick",
-    LastName = "Bara",
-    Age = 0,
-    PersonalId = "64654654654",
-    Salary = 1500,
-    EmployeePosition = EmployeePosition.Marketing_Specialist
-};
+//Employee emp1 = new()
+//{
+//    Name = "nick",
+//    LastName = "Bara",
+//    Age = 0,
+//    PersonalId = "64654654654",
+//    Salary = 1500,
+//    EmployeePosition = EmployeePosition.Marketing_Specialist
+//};
 
-Employee emp2 = new()
-{
-    Name = "nick",
-    LastName = "Bara",
-    Age = 0,
-    PersonalId = "64654654654",
-    Salary = 1500,
-    EmployeePosition = EmployeePosition.Marketing_Specialist
-};
+//Employee emp2 = new()
+//{
+//    Name = "nick",
+//    LastName = "Bara",
+//    Age = 0,
+//    PersonalId = "64654654654",
+//    Salary = 1500,
+//    EmployeePosition = EmployeePosition.Marketing_Specialist
+//};
 
-List<Employee> ns = [emp, emp1, emp2];
-res.AddEmploies(ns);
+//List<Employee> ns = [emp, emp1, emp2];
+//res.AddEmploies(ns);
 
-//res.PrintEmploiesData();
+////res.PrintEmploiesData();
 
-Console.ReadLine();
+//Console.ReadLine();
 
 
 // Csv file filler data
@@ -56,3 +62,19 @@ Console.ReadLine();
 //5,nick, Bara,0,64654654654, Marketing_Specialist,04/11/2025 01:42:50,1500
 //6,nick, Bara,0,64654654654, Marketing_Specialist,04/11/2025 01:42:50,1500
 //7,nick, Bara,0,64654654654, Marketing_Specialist,04/11/2025 01:42:50,1500
+
+//Console.WriteLine(AnsiShadow.LoadAnsiShadow().Render("HRMS"));
+
+//Console.WriteLine(banner);
+
+
+ConsoleService.PrintLogo();
+
+while (true)
+{
+    ConsoleService.Start();
+}
+
+
+
+//rows.ForEach(row => table.AddRow(row));
