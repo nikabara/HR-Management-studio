@@ -12,6 +12,7 @@ public enum EmployeePosition
     VP,
     President,
     COO,
-    CEO
+    CEO,
+    _Unidentified
 }
 

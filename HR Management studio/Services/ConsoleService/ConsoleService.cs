@@ -6,6 +6,8 @@ using Figgle;
 using System.Reflection;
 using HR_Management_studio.Enums;
 using System.Linq;
+using System.Threading.Channels;
+using HR_Management_studio.Services.EnumServices;
 
 namespace HR_Management_studio.Services.ConsoleService;
 
@@ -36,7 +38,7 @@ public class ConsoleService
                     "6. Get job position analytics",
                     "[red bold]-- Exit ------>[/]"
                 ]));
-
+        
         CallMethodOnMenuOption(menuOption);
     }
 
@@ -47,7 +49,7 @@ public class ConsoleService
             switch (mentuOption)
             {
                 case "1. Hire a new employee":
-                    AnsiConsole.Markup("[bold red]Not implemented[/]");
+                    HireEmployee();
                     break;
                 case "2. Fire an employee":
                     AnsiConsole.Markup("[bold red]Not implemented[/]");
@@ -76,6 +78,86 @@ public class ConsoleService
             AnsiConsole.Markup(ex.Message);
             Start();
         }
+    }
+
+    public static void HireEmployee()
+    {
+
+        //var image = new CanvasImage("../../../Assets/nature2.jpg");
+        //image.MaxWidth(250);
+        //AnsiConsole.Write(image);
+
+        Employee employee = new();
+
+        Console.WriteLine();
+
+        AnsiConsole.Write(
+            new Rule("[bold #d7af00]Register employee[/]")
+            .RuleStyle(Color.White)
+            .Justify(Justify.Left));
+
+        Console.WriteLine();
+
+        employee.Name = AnsiConsole.Prompt(
+            new TextPrompt<string>("[red]·[/] [#5fafff]Employee[/] (Name) :")
+                .PromptStyle(Color.Gold3_1)
+        ); Console.WriteLine();
+
+        employee.LastName = AnsiConsole.Prompt(
+            new TextPrompt<string>("[red]·[/] [#5fafff]Employee[/] (Last-name) :")
+                .PromptStyle(Color.Gold3_1)
+        ); Console.WriteLine();
+
+        employee.Age = AnsiConsole.Prompt(
+            new TextPrompt<int>("[red]·[/] [#5fafff]Employee[/] (Age) :")
+                .PromptStyle(Color.Gold3_1)
+        ); Console.WriteLine();
+
+        employee.PersonalId = AnsiConsole.Prompt(
+            new TextPrompt<string>("[red]·[/] [#5fafff]Employee[/] (Personal id) :")
+                .PromptStyle(Color.Gold3_1)
+        ); Console.WriteLine();
+
+        employee.EmployeePosition = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+                .Title("[red]·[/] [bold #5fafff]Choose employee position[/]")
+                .PageSize(100)
+                .EnableSearch()
+                .MoreChoicesText("[grey](Move up and down to reveal more fruits)[/]")
+                .AddChoices([
+                    "IT_Tech",
+                    "Accountant",
+                    "HRP",
+                    "Marketing_Specialist",
+                    "Business_Analyst",
+                    "Sales_Manager",
+                    "Project_Manager",
+                    "VP",
+                    "[#CD7F32]President[/]",
+                    "[#cda432]COO[/]",
+                    "[#FFD700]CEO[/]"
+                ])).StringToEnum();
+
+        AnsiConsole.MarkupLine($"[red]·[/] [#5fafff]Employee[/] (Employee position) : [#d7af00]{employee.EmployeePosition}[/]");
+        Console.WriteLine();
+
+
+        employee.DateOfEmployment = AnsiConsole.Prompt(
+        new TextPrompt<DateTime>(
+            $"[red]·[/] [#5fafff]Employee[/] (Date of employment) " +
+            $"[blue underline][[ default: {DateTime.Today} ]][/] :")
+            .PromptStyle(Color.Gold3_1)
+            .AllowEmpty()
+            .DefaultValue(DateTime.Now)
+            .HideDefaultValue()
+        ); Console.WriteLine();
+
+        employee.Salary = AnsiConsole.Prompt(
+            new TextPrompt<int>("[red]·[/] [#5fafff]Employee[/] (Salary) :")
+                .PromptStyle(Color.Gold3_1)
+        ); Console.WriteLine();
+
+        empService.AddEmployee(employee);
     }
 
     private static void GetCompanyPositionsAnalytics()
