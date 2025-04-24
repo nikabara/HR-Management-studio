@@ -166,6 +166,46 @@ namespace HR_Management_studio.Services.EmployeeService
             }
         }
 
+        public void EditEmployee(string personalId, Employee employee)
+        {
+            try
+            {
+                string directoryPath = Path.Combine(_filePath, "Employee");
+                if (!Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+
+                string filePath = Path.Combine(directoryPath, "Employee.csv");
+
+                Employee filteredEmployee = GetEmploies()
+                    .FirstOrDefault(emp => emp.PersonalId.Equals(personalId))!;
+
+                if (filteredEmployee != null)
+                {
+                    filteredEmployee = employee;
+                }
+                else
+                {
+                    throw new ArgumentNullException();
+                }
+
+                RemoveEmployee(x => x.PersonalId.Equals(personalId), out bool isSuccessful);
+
+                if (isSuccessful)
+                {
+                    AddEmployee(filteredEmployee);
+                    List<Employee> employeesCollection = GetEmploies().OrderBy(x => x.Id).ToList();
+                    AddEmploies(employeesCollection);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+
         /// <summary>
         /// Print every single employe info to console
         /// </summary>

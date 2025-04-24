@@ -78,5 +78,4 @@ public class Employee
 		$"Position : {EmployeePosition.FormatPositionEnum()}\n" +
 		$"Date of employment (mm/dd/yy): {dateOfEmployment:MM/dd/yyyy hh:mm:ss}\n" +
 		$"Salary: {salary}\n";
- 
 }
