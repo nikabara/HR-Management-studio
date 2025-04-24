@@ -148,7 +148,7 @@ namespace HR_Management_studio.Services.EmployeeService
 
                 string filePath = Path.Combine(directoryPath, "Employee.csv");
 
-                List<Employee> filteredEmploies = GetEmploies().Where(statement).ToList();
+                List<Employee> filteredEmploies = GetEmploies().Where(emp => !statement(emp)).ToList();
 
                 if (filteredEmploies.Count != 0)
                 {
