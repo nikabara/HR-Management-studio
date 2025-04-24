@@ -150,7 +150,7 @@ namespace HR_Management_studio.Services.EmployeeService
 
                 List<Employee> filteredEmploies = GetEmploies().Where(emp => !statement(emp)).ToList();
 
-                if (filteredEmploies.Count != 0)
+                if (filteredEmploies.Count != 0 || GetEmploies().Count == 1)
                 {
                     File.Delete(filePath);
                     AddEmploies(filteredEmploies);
