@@ -70,12 +70,12 @@ while (true)
 {
     ConsoleService.Start();
     //ConsoleService.HireEmployee();
-
     //Calendar calendar = new(DateTime.Now.Year, DateTime.Now.Month)
     //calendar.AddCalendarEvent(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
     //calendar.HighlightStyle(Style.Parse("yellow bold"));
     //AnsiConsole.Write(calendar);
 
-    //break;
+
+    //ConsoleService.GetEmployeeData();
 }
 

@@ -21,7 +21,7 @@ public class ConsoleService
         Console.WriteLine(AnsiShadow.LoadAnsiShadow().Render("HRMS"));
     }
 
-    public static void Start() 
+    public static void Start()
     {
         string menuOption = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
@@ -38,7 +38,7 @@ public class ConsoleService
                     "6. Get job position analytics",
                     "[red bold]-- Exit ------>[/]"
                 ]));
-        
+
         CallMethodOnMenuOption(menuOption);
     }
 
@@ -52,13 +52,13 @@ public class ConsoleService
                     HireEmployee();
                     break;
                 case "2. Fire an employee":
-                    AnsiConsole.Markup("[bold red]Not implemented[/]");
+                    FireEmployee();
                     break;
                 case "3. Get all emploies' data":
                     PrintAllEmploiesData();
                     break;
                 case "4. Get an employee data":
-                    AnsiConsole.Markup("[bold red]Not implemented[/]");
+                    GetEmployeeData();
                     break;
                 case "5. Edit an employee data (via personal id)":
                     AnsiConsole.Markup("[bold red]Not implemented[/]");
@@ -80,8 +80,11 @@ public class ConsoleService
         }
     }
 
-    public static void HireEmployee()
+    private static void HireEmployee()
     {
+
+        AnsiConsole.Clear(); // Optional: clears screen for cleaner look
+        PrintLogo();
 
         //var image = new CanvasImage("../../../Assets/nature2.jpg");
         //image.MaxWidth(250);
@@ -157,7 +160,77 @@ public class ConsoleService
                 .PromptStyle(Color.Gold3_1)
         ); Console.WriteLine();
 
-        empService.AddEmployee(employee);
+        //bool isOperationConfirmed = AnsiConsole.Prompt(
+        //    new TextPrompt<bool>("Complete [blue]hiring[/] procedure?")
+        //    .AddChoices([true, false])
+        //    );
+
+        bool isOperationConfirmed = AnsiConsole.Prompt(
+            new TextPrompt<bool>("[red]·[/] [#5fafff]Complete procedure?[/] [blue][[ yes / no ]][/] :")
+                .AddChoices([true, false])
+                .WithConverter(choice => choice ? "yes" : "no")
+                .HideChoices()
+                .PromptStyle(Color.Gold3_1)
+        ); Console.WriteLine();
+
+        if (isOperationConfirmed)
+        {
+            empService.AddEmployee(employee);
+            AnsiConsole.Clear(); // Optional: clears screen for cleaner look
+            PrintLogo();
+            AnsiConsole.MarkupLine("[green bold]Employee hired successfully[/]");
+        }
+        else
+        {
+            AnsiConsole.Clear(); // Optional: clears screen for cleaner look
+            PrintLogo();
+            AnsiConsole.MarkupLine("[red bold]Employee was not hired[/]");
+        }
+
+    }
+
+    private static void FireEmployee()
+    {
+        AnsiConsole.Clear(); // Optional: clears screen for cleaner look
+        PrintLogo();
+
+        Console.WriteLine();
+
+        AnsiConsole.Write(
+            new Rule("[bold #d7af00]Fire employee[/]")
+            .RuleStyle(Color.White)
+            .Justify(Justify.Left)
+        ); Console.WriteLine();
+
+        string employeePersonalId = AnsiConsole.Prompt(
+            new TextPrompt<string>("[red]·[/] [#5fafff]Employee[/] (Private Id) :")
+                .PromptStyle(Color.Gold3_1)
+        ); Console.WriteLine();
+
+        bool isOperationConfirmed = AnsiConsole.Prompt(
+            new TextPrompt<bool>("[red]·[/] [#5fafff]Complete procedure?[/] [blue][[ yes / no ]][/] :")
+                .AddChoices([true, false])
+                .WithConverter(choice => choice ? "yes" : "no")
+                .HideChoices()
+                .PromptStyle(Color.Gold3_1)
+        ); Console.WriteLine();
+
+        if (isOperationConfirmed)
+        {
+            empService.RemoveEmployee(employee => employee.PersonalId.Equals(employeePersonalId), out bool isSuccesfull);
+            AnsiConsole.Clear(); 
+            PrintLogo();
+            if (isSuccesfull)
+                AnsiConsole.MarkupLine("[green bold]Employee fired successfully[/]");
+            else 
+                AnsiConsole.MarkupLine("[red bold]Employee was not fired[/]");
+        }
+        else
+        {
+            AnsiConsole.Clear(); // Optional: clears screen for cleaner look
+            PrintLogo();
+            AnsiConsole.MarkupLine("[red bold]Employee was not fired[/]");
+        }
     }
 
     private static void GetCompanyPositionsAnalytics()
@@ -207,9 +280,7 @@ public class ConsoleService
         AnsiConsole.Write(chartPanel);
     }
 
-
-
-    public static void PrintAllEmploiesData()
+    private static void PrintAllEmploiesData()
     {
         AnsiConsole.Clear();
         PrintLogo();
@@ -256,6 +327,52 @@ public class ConsoleService
 
         // Optional: add a footer or message after
         AnsiConsole.MarkupLine("\n[green]✔ Done loading employee data.[/]");
+    }
+
+    public static void GetEmployeeData()
+    {
+        AnsiConsole.Clear(); // Optional: clears screen for cleaner look
+        PrintLogo();
+
+        Console.WriteLine();
+
+        AnsiConsole.Write(
+            new Rule("[bold #d7af00]Get employee data[/]")
+            .RuleStyle(Color.White)
+            .Justify(Justify.Left)
+        ); Console.WriteLine();
+
+        string employeePersonalId = AnsiConsole.Prompt(
+            new TextPrompt<string>("[red]·[/] [#5fafff]Employee[/] (Private Id) :")
+                .PromptStyle(Color.Gold3_1)
+        ); Console.WriteLine();
+
+        Employee employee = empService.GetEmployee(employeePersonalId);
+
+        // Get property information for the Employee class
+        PropertyInfo[] employeePropertyCollection = typeof(Employee)
+            .GetProperties()
+            .ToArray();
+
+        // Create the table
+        Table table = new();
+
+        // Add columns for each property name
+        foreach (PropertyInfo item in employeePropertyCollection)
+        {
+            table.AddColumn(item.Name);
+        }
+
+        // Add the row with the values of each property for the employee
+        var employeeValues = employeePropertyCollection
+            .Select(prop => prop.GetValue(employee)?.ToString() ?? "N/A") // Get values or "N/A" if null
+            .ToArray();
+
+        table.AddRow(employeeValues);
+
+        // Write the table to the console
+        AnsiConsole.Write(table);
+
     }
 
 }

@@ -115,11 +115,13 @@ namespace HR_Management_studio.Services.EmployeeService
                 
                 List<Employee> filteredEmploies = GetEmploies().Where(x => x.Id != id).ToList();
                 
-                File.Delete(filePath);
-
-                AddEmploies(filteredEmploies);
-
-                isSuccessful = true;
+                if (filteredEmploies.Count != 0)
+                {
+                    File.Delete(filePath);
+                    AddEmploies(filteredEmploies);
+                    isSuccessful = true;
+                }
+                else isSuccessful = false;
             }
             catch (Exception ex)
             {
@@ -148,11 +150,13 @@ namespace HR_Management_studio.Services.EmployeeService
 
                 List<Employee> filteredEmploies = GetEmploies().Where(statement).ToList();
 
-                File.Delete(filePath);
-
-                AddEmploies(filteredEmploies);
-
-                isSuccessful = true;
+                if (filteredEmploies.Count != 0)
+                {
+                    File.Delete(filePath);
+                    AddEmploies(filteredEmploies);
+                    isSuccessful = true;
+                }
+                else isSuccessful = false;
             }
             catch (Exception ex)
             {
