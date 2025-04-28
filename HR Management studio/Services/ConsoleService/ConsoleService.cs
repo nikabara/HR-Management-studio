@@ -234,6 +234,7 @@ public class ConsoleService
     }
 
     private static void EditEmployee()
+    
     {
         AnsiConsole.Clear(); // Optional: clears screen for cleaner look
         PrintLogo();

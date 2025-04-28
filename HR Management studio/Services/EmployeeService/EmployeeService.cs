@@ -3,7 +3,6 @@ using HR_Management_studio.Models;
 using System.Globalization;
 using System.Text;
 using HR_Management_studio.Enums;
-using HR_Management_studio.Services.DirectoryService;
 
 namespace HR_Management_studio.Services.EmployeeService
 {
@@ -167,6 +166,13 @@ namespace HR_Management_studio.Services.EmployeeService
             }
         }
 
+        /// <summary>
+        /// Takes personal id of an Employee which needs to be edited and also data to edit it with
+        /// as a Employee class object. If Employee object property is null it is ignored, else assigned.
+        /// </summary>
+        /// <param name="personalId"></param>
+        /// <param name="employee"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         public void EditEmployee(string personalId, Employee employee)
         {
             try
@@ -224,7 +230,6 @@ namespace HR_Management_studio.Services.EmployeeService
             }
         }
 
-
         /// <summary>
         /// Print every single employe info to console
         /// </summary>
@@ -254,6 +259,13 @@ namespace HR_Management_studio.Services.EmployeeService
         }
 
 
+
+
+        /// <summary>
+        /// ამათ არ შეეხო XD
+        /// </summary>
+        /// <param name="employee"></param>
+        /// <param name="isOperationSuccessful"></param>
         [Obsolete("Dont use this method. Use [AddEmployee(Employee employee)] instead")]
         public void AddEmployee(Employee employee, out bool isOperationSuccessful)
         {
@@ -281,6 +293,13 @@ namespace HR_Management_studio.Services.EmployeeService
                 isOperationSuccessful = false;
             }
         }
+
+        /// <summary>
+        /// ამათ არ შეეხო XD
+        /// </summary>
+        /// <param name="employee"></param>
+        /// <param name="isOperationSuccessful"></param>
+        [Obsolete("Dont use this method at all")]
         private void WriteToFile(string filePath, Employee employee)
         {
             try

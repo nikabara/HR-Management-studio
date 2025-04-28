@@ -1,55 +1,13 @@
-﻿using HR_Management_studio.Enums;
-using HR_Management_studio.Models;
-using HR_Management_studio.Services.DirectoryService;
-using HR_Management_studio.Services.EmployeeService;
-using HR_Management_studio.Services.EnumServices;
-using System.Diagnostics;
-using Spectre.Console;
-using Figgle;
-using HR_Management_studio.Assets;
-using HR_Management_studio.Services.ConsoleService;
+﻿using HR_Management_studio.Services.ConsoleService;
+
+ConsoleService.PrintLogo();
+
+while (true)
+{
+    ConsoleService.Start();
+}
 
 
-EmployeeService res = new();
-
-//List<Employee> emp = res.GetEmploies(x => x.Name == "nick");
-//Console.ReadLine();
-//Employee emp = new()
-//{
-//    Name = "nick",
-//    LastName = "Bara",
-//    Age = 0,
-//    PersonalId = "64654654654",
-//    Salary = 1500,
-//    EmployeePosition = EmployeePosition.Marketing_Specialist
-//};
-
-//Employee emp1 = new()
-//{
-//    Name = "nick",
-//    LastName = "Bara",
-//    Age = 0,
-//    PersonalId = "64654654654",
-//    Salary = 1500,
-//    EmployeePosition = EmployeePosition.Marketing_Specialist
-//};
-
-//Employee emp2 = new()
-//{
-//    Name = "nick",
-//    LastName = "Bara",
-//    Age = 0,
-//    PersonalId = "64654654654",
-//    Salary = 1500,
-//    EmployeePosition = EmployeePosition.Marketing_Specialist
-//};
-
-//List<Employee> ns = [emp, emp1, emp2];
-//res.AddEmploies(ns);
-
-////res.PrintEmploiesData();
-
-//Console.ReadLine();
 
 
 // Csv file filler data
@@ -61,20 +19,3 @@ EmployeeService res = new();
 //5,nick, Bara,0,64654654654, IT_Tech,04/11/2025 01:42:50,1500
 //6,nick, Bara,0,64654654654, CEO,04/11/2025 01:42:50,1500
 //7,nick, Bara,0,64654654654, VP,04/11/2025 01:42:50,1500
-
-
-ConsoleService.PrintLogo();
-
-while (true)
-{
-    ConsoleService.Start();
-    //ConsoleService.HireEmployee();
-    //Calendar calendar = new(DateTime.Now.Year, DateTime.Now.Month)
-    //calendar.AddCalendarEvent(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
-    //calendar.HighlightStyle(Style.Parse("yellow bold"));
-    //AnsiConsole.Write(calendar);
-
-
-    //ConsoleService.GetEmployeeData();
-}
-
