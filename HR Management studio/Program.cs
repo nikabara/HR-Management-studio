@@ -5,7 +5,6 @@ using HR_Management_studio.Services.EmployeeService;
 using HR_Management_studio.Services.EnumServices;
 using System.Diagnostics;
 using Spectre.Console;
-
 using Figgle;
 using HR_Management_studio.Assets;
 using HR_Management_studio.Services.ConsoleService;

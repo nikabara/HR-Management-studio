@@ -25,9 +25,9 @@ public class Employee
 		set { lastName = value; }
 	}
 
-	private int age;
+	private int? age;
 	[Required]
-	public int Age
+	public int? Age
 	{
 		get { return age; }
 		set { age = value; }
@@ -50,20 +50,20 @@ public class Employee
 		set { employeePosition = value; }
 	}
 
-	private DateTime dateOfEmployment = DateTime.Now;
+	private DateTime? dateOfEmployment = DateTime.Now;
     /// <summary>
     /// If not assigned default value of DateOfEmployment property will be DateTime.Now
     /// </summary>
 	[Required]
-	public DateTime DateOfEmployment
+	public DateTime? DateOfEmployment
     {
 		get { return dateOfEmployment; }
 		set { dateOfEmployment = value; }
 	}
 
-	private decimal salary;
+	private decimal? salary;
 	[Required]
-	public decimal Salary
+	public decimal? Salary
 	{
 		get { return salary; }
 		set { salary = value; }

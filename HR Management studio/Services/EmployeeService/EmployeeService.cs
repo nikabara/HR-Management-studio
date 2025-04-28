@@ -2,6 +2,7 @@
 using HR_Management_studio.Models;
 using System.Globalization;
 using System.Text;
+using HR_Management_studio.Enums;
 using HR_Management_studio.Services.DirectoryService;
 
 namespace HR_Management_studio.Services.EmployeeService
@@ -183,7 +184,17 @@ namespace HR_Management_studio.Services.EmployeeService
 
                 if (filteredEmployee != null)
                 {
-                    filteredEmployee = employee;
+                    filteredEmployee.Name = employee.Name ?? filteredEmployee.Name;
+                    filteredEmployee.LastName = employee.LastName ?? filteredEmployee.LastName;
+                    filteredEmployee.Age = employee.Age ?? filteredEmployee.Age;
+                    
+                    filteredEmployee.EmployeePosition = 
+                        employee.EmployeePosition != EmployeePosition._Unidentified 
+                        ? employee.EmployeePosition
+                        : filteredEmployee.EmployeePosition;
+
+                    filteredEmployee.DateOfEmployment = employee.DateOfEmployment ?? filteredEmployee.DateOfEmployment;
+                    filteredEmployee.Salary = employee.Salary ?? filteredEmployee.Salary;
                 }
                 else
                 {
@@ -194,8 +205,16 @@ namespace HR_Management_studio.Services.EmployeeService
 
                 if (isSuccessful)
                 {
-                    AddEmployee(filteredEmployee);
-                    List<Employee> employeesCollection = GetEmploies().OrderBy(x => x.Id).ToList();
+                    List<Employee> filteredEmploies = GetEmploies()
+                        .Where(emp => emp.PersonalId != personalId)
+                        .ToList();
+
+                    filteredEmploies.Add(filteredEmployee);
+
+                    List<Employee> employeesCollection = filteredEmploies.OrderBy(x => x.Id).ToList();
+
+                    File.Delete(filePath);
+
                     AddEmploies(employeesCollection);
                 }
             }

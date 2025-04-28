@@ -242,12 +242,27 @@ public class ConsoleService
         //image.MaxWidth(250);
         //AnsiConsole.Write(image);
 
-        Employee employee = new();
-
         Console.WriteLine();
 
         AnsiConsole.Write(
-            new Rule("[bold #d7af00]Edit employee[/]")
+            new Rule("[bold #d7af00]Employee to edit[/]")
+            .RuleStyle(Color.White)
+            .Justify(Justify.Left));
+
+        Console.WriteLine();
+
+        string personalId = AnsiConsole.Prompt(
+            new TextPrompt<string>("[red]·[/] [#5fafff]Employee[/] (Personal id) :")
+                .PromptStyle(Color.Gold3_1)
+        )!; Console.WriteLine();
+
+        Employee employee = new()
+        {
+            PersonalId = null!
+        };
+
+        AnsiConsole.Write(
+            new Rule("[bold #d7af00]New data[/]")
             .RuleStyle(Color.White)
             .Justify(Justify.Left));
 
@@ -255,23 +270,31 @@ public class ConsoleService
 
         employee.Name = AnsiConsole.Prompt(
             new TextPrompt<string>("[red]·[/] [#5fafff]Employee[/] (Name) :")
-                .PromptStyle(Color.Gold3_1)
-        ); Console.WriteLine();
+                .PromptStyle(Color.Gold3_1)!
+                .DefaultValue(null)
+                .HideDefaultValue()
+        )!; Console.WriteLine();
 
         employee.LastName = AnsiConsole.Prompt(
             new TextPrompt<string>("[red]·[/] [#5fafff]Employee[/] (Last-name) :")
-                .PromptStyle(Color.Gold3_1)
-        ); Console.WriteLine();
+                .PromptStyle(Color.Gold3_1)!
+                .DefaultValue(null)
+                .HideDefaultValue()
+        )!; Console.WriteLine();
 
         employee.Age = AnsiConsole.Prompt(
-            new TextPrompt<int>("[red]·[/] [#5fafff]Employee[/] (Age) :")
+            new TextPrompt<int?>("[red]·[/] [#5fafff]Employee[/] (Age) :")
                 .PromptStyle(Color.Gold3_1)
+                .DefaultValue(null)
+                .HideDefaultValue()
         ); Console.WriteLine();
 
-        employee.PersonalId = AnsiConsole.Prompt(
-            new TextPrompt<string>("[red]·[/] [#5fafff]Employee[/] (Personal id) :")
-                .PromptStyle(Color.Gold3_1)
-        ); Console.WriteLine();
+        //employee.PersonalId = AnsiConsole.Prompt(
+        //    new TextPrompt<string>("[red]·[/] [#5fafff]Employee[/] (Personal id) :")
+        //        .PromptStyle(Color.Gold3_1)!
+        //        .DefaultValue(null)
+        //        .HideDefaultValue()
+        //)!; Console.WriteLine();
 
         employee.EmployeePosition = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
@@ -280,6 +303,7 @@ public class ConsoleService
                 .EnableSearch()
                 .MoreChoicesText("[grey](Move up and down to reveal more fruits)[/]")
                 .AddChoices([
+                    "[red bold]-- SKIP ------>[/]\n",
                     "IT_Tech",
                     "Accountant",
                     "HRP",
@@ -298,18 +322,20 @@ public class ConsoleService
 
 
         employee.DateOfEmployment = AnsiConsole.Prompt(
-        new TextPrompt<DateTime>(
+        new TextPrompt<DateTime?>(
             $"[red]·[/] [#5fafff]Employee[/] (Date of employment) " +
-            $"[blue underline][[ default: {DateTime.Today} ]][/] :")
+            $"[blue underline][[ example: {DateTime.Today} ]][/] :")
             .PromptStyle(Color.Gold3_1)
             .AllowEmpty()
-            .DefaultValue(DateTime.Now)
+            .DefaultValue(null)
             .HideDefaultValue()
         ); Console.WriteLine();
 
         employee.Salary = AnsiConsole.Prompt(
-            new TextPrompt<int>("[red]·[/] [#5fafff]Employee[/] (Salary) :")
+            new TextPrompt<decimal?>("[red]·[/] [#5fafff]Employee[/] (Salary) :")
                 .PromptStyle(Color.Gold3_1)
+                .DefaultValue(null)
+                .HideDefaultValue()
         ); Console.WriteLine();
 
         //bool isOperationConfirmed = AnsiConsole.Prompt(
@@ -328,7 +354,7 @@ public class ConsoleService
 
         if (isOperationConfirmed)
         {
-            empService.EditEmployee(employee.PersonalId, employee);
+            empService.EditEmployee(personalId, employee);
             AnsiConsole.Clear(); // Optional: clears screen for cleaner look
             PrintLogo();
             AnsiConsole.MarkupLine("[green bold]Employee edited successfully[/]");
